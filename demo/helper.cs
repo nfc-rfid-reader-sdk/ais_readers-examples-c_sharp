@@ -96,6 +96,24 @@ namespace DL_AIS_Readers
         {
             return System.Text.RegularExpressions.Regex.IsMatch(s, str_RegexHexPair);
         }
+
+        public static TimeSpan getDaylightDeltaOnSpecificDateTime(TimeZoneInfo timeZoneInfo, DateTime dateTime)
+        {
+            TimeSpan delta = TimeSpan.Zero;
+
+            if (timeZoneInfo.IsDaylightSavingTime(dateTime))
+            {
+                foreach (var adjustmentRule in timeZoneInfo.GetAdjustmentRules())
+                {
+                    if (adjustmentRule.DateStart <= dateTime && adjustmentRule.DateEnd >= dateTime)
+                    {
+                        delta = adjustmentRule.DaylightDelta;
+                    }
+                }
+            }
+
+            return delta;
+        }
     }
 
     public class AlphanumComparatorFast : IComparer<string>

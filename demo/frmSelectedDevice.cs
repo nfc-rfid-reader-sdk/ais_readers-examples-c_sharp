@@ -220,7 +220,15 @@ namespace DL_AIS_Readers
                     }
                 }
 
-                status = ais_readers.AIS_GetTime(hnd_device, out dt);
+                Int32 timezone, dst_bias;
+                bool is_dst;
+
+                DateTime utc = DateTime.UtcNow;
+                status = ais_readers.AIS_GetTime(hnd_device, out dt, out timezone, out is_dst, out dst_bias);
+                //is_dst = false;
+                //timezone = 9;
+                dst_bias = 9;
+                TimeSpan udc_diff = dt - utc;
                 if (status != DL_STATUS.DL_OK)
                 {
                     status_msg = ais_readers.status2str(status);
@@ -228,11 +236,39 @@ namespace DL_AIS_Readers
                 }
                 else
                 {
+                    TimeZoneInfo localZone = TimeZoneInfo.Local;
+                    
                     Helper.AppendText(tbInfo, "Hardware type: " + hardware_type + "\n", Color.Navy);
                     Helper.AppendText(tbInfo, "Firmware version: " + firmware_version + "\n", Color.Navy);
                     Helper.AppendText(tbInfo, "FTDI Serial number: " + ftdi_serial + "\n", Color.Black);
-                    Helper.AppendText(tbInfo, "Device date: " + dt.ToLongDateString() + "\n", Color.Navy);
-                    Helper.AppendText(tbInfo, "Device time: " + dt.ToLongTimeString() + "\n", Color.Navy);
+                    Helper.AppendText(tbInfo, "Device date (UTC): " + dt.ToLongDateString() + "\n", Color.Navy);
+                    Helper.AppendText(tbInfo, "Device time (UTC): " + dt.ToLongTimeString() + "\n", Color.Navy);
+                    if ((localZone.BaseUtcOffset.Hours * 60 + localZone.BaseUtcOffset.Minutes) != timezone)
+                    {
+                        Helper.AppendText(tbInfo, "Device time zone offset differs from the local one:\n", Color.Red);
+                        Helper.AppendText(tbInfo, "\tDevice time zone offset: " +  timezone + " min.\n", Color.Red);
+                        Helper.AppendText(tbInfo, "\tLocal time zone offset: " + (localZone.BaseUtcOffset.Hours * 60 + localZone.BaseUtcOffset.Minutes) + " min.\n", Color.Red);
+                    }
+                    if (localZone.IsDaylightSavingTime(dt) != is_dst)
+                    {
+                        Helper.AppendText(tbInfo, "Device daylight saving differs from the local one:\n", Color.Red);
+                        Helper.AppendText(tbInfo, String.Format("\tDevice daylight saving: {0}\n", is_dst ? "active" : "inactive"), Color.Red);
+                        Helper.AppendText(tbInfo, String.Format("\tLocal daylight saving for device date_time: {0}\n", localZone.IsDaylightSavingTime(dt) ? "active" : "inactive"), Color.Red);
+                    }
+                    else if (is_dst)
+                    {
+                        TimeSpan local_dst_delta = Helper.getDaylightDeltaOnSpecificDateTime(localZone, dt);
+                        if ((local_dst_delta.Hours * 60 + local_dst_delta.Minutes) != dst_bias)
+                        {
+                            Helper.AppendText(tbInfo, "Device daylight saving bias differs from the local one:\n", Color.Red);
+                            Helper.AppendText(tbInfo, "\tDevice daylight saving bias: " + dst_bias + " min.\n", Color.Red);
+                            Helper.AppendText(tbInfo, "\tLocal daylight saving bias for device date_time: " + (local_dst_delta.Hours * 60 + local_dst_delta.Minutes) + " min.\n", Color.Red);
+                        }
+                    }
+                    if (Math.Abs(udc_diff.TotalSeconds) > ais_readers.MAX_DATE_TIME_DIFF_IN_SEC)
+                    {
+                        Helper.AppendText(tbInfo, String.Format("Device date_time (UTC) differs from the local UTC time, on this PC, by: {0:F4}", udc_diff.TotalDays) + " days\n", Color.Red);
+                    }
                     Helper.AppendText(tbInfo, "Batery status: " + battery_status + "\n", Color.Black);
                     Helper.AppendText(tbInfo, "Batery available: " + battery_available_percent + " %\n", Color.Black);
                     Helper.AppendText(tbLog, "Device information read successfully.\n", Color.Green);
@@ -267,10 +303,12 @@ namespace DL_AIS_Readers
             DateTime dt;
             DL_STATUS status;
             string status_msg;
+            Int32 timezone, dst_bias;
+            bool is_dst;
 
             try
             {
-                status = ais_readers.AIS_GetTime(hnd_device, out dt);
+                status = ais_readers.AIS_GetTime(hnd_device, out dt, out timezone, out is_dst, out dst_bias);
                 if (status != DL_STATUS.DL_OK)
                 {
                     status_msg = ais_readers.status2str(status);

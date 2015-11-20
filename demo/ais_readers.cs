@@ -266,6 +266,7 @@ namespace DL_AIS_Readers
 
     public static class ais_readers
     {
+        public const UInt32 MAX_DATE_TIME_DIFF_IN_SEC = 60;
         public const Int32 NFC_UID_MAX_LEN = 10;
         private const UInt32 MAX_RETRY_IF_BUSY = 5;
 
@@ -636,20 +637,22 @@ namespace DL_AIS_Readers
         // Time functions:
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "AIS_GetTime")]
-        private static extern DL_STATUS GetTime(HND_AIS device, out UInt64 unixTime);
-        public static DL_STATUS AIS_GetTime(HND_AIS device, out DateTime date_time)
+        private static extern DL_STATUS GetTime(HND_AIS device, out UInt64 unixTime, out Int32 timezone, out Int32 dst, out Int32 dst_bias); // timezone and dst_bias in min.
+        public static DL_STATUS AIS_GetTime(HND_AIS device, out DateTime date_time, out Int32 timezone, out bool is_dst, out Int32 dst_bias)
         {
             DL_STATUS status = DL_STATUS.DL_OK;
             UInt32 i = 0;
             DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             UInt64 unixTime;
+            Int32 dst;
 
             do
             {
-                status = GetTime(device, out unixTime);
+                status = GetTime(device, out unixTime, out timezone, out dst, out dst_bias);
             }
             while ((status == DL_STATUS.RESOURCE_BUSY) && (i++ < MAX_RETRY_IF_BUSY));
-            date_time = epoch.AddSeconds(unixTime);
+            is_dst = dst != 0;
+            date_time = DateTime.SpecifyKind(epoch.AddSeconds(unixTime), DateTimeKind.Utc);
             return status;
         }
 
