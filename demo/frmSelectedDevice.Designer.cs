@@ -43,14 +43,6 @@ namespace DL_AIS_Readers
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageInfo = new System.Windows.Forms.TabPage();
             this.lbDeviceId = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnGetTime = new System.Windows.Forms.Button();
-            this.btnSubmitLocalDateTime = new System.Windows.Forms.Button();
-            this.tbDateTimeLocal = new System.Windows.Forms.TextBox();
-            this.btnSubmitDateTime = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.dateTimeDevice = new System.Windows.Forms.DateTimePicker();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSubmitPassword = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -65,12 +57,48 @@ namespace DL_AIS_Readers
             this.gbAdminPassword = new System.Windows.Forms.GroupBox();
             this.btnSetAdminPassword = new System.Windows.Forms.Button();
             this.tbAdminPassword = new System.Windows.Forms.TextBox();
+            this.tabPageDateTime = new System.Windows.Forms.TabPage();
+            this.gbLocalDateTime = new System.Windows.Forms.GroupBox();
+            this.tbLocalDstName = new System.Windows.Forms.TextBox();
+            this.lbDstName = new System.Windows.Forms.Label();
+            this.tbLocalTimeZoneName = new System.Windows.Forms.TextBox();
+            this.lbLocalTimeZoneName = new System.Windows.Forms.Label();
+            this.btnSubmitLocalDateTime = new System.Windows.Forms.Button();
+            this.tbLocalUTC = new System.Windows.Forms.TextBox();
+            this.tbLocalDstDelta = new System.Windows.Forms.TextBox();
+            this.tbLocalTimeZoneOffset = new System.Windows.Forms.TextBox();
+            this.tbLocalTimeZoneStandardName = new System.Windows.Forms.TextBox();
+            this.lbLocalTimeZoneStandardName = new System.Windows.Forms.Label();
+            this.lbLocalDstDelta = new System.Windows.Forms.Label();
+            this.chkLocalDstActive = new System.Windows.Forms.CheckBox();
+            this.lbLocalTimeZoneOffset = new System.Windows.Forms.Label();
+            this.tbLocalDateTime = new System.Windows.Forms.TextBox();
+            this.lbLocalDateTime = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.gbDeviceDateTime = new System.Windows.Forms.GroupBox();
+            this.numDeviceDstDelta = new System.Windows.Forms.NumericUpDown();
+            this.numDeviceTimeZoneOffset = new System.Windows.Forms.NumericUpDown();
+            this.dtpDeviceTime = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chkDeviceDstActive = new System.Windows.Forms.CheckBox();
+            this.lbDeviceDstDelta = new System.Windows.Forms.Label();
+            this.lbDeviceTimeZoneOffset = new System.Windows.Forms.Label();
+            this.btnGetTime = new System.Windows.Forms.Button();
+            this.btnSubmitDateTime = new System.Windows.Forms.Button();
+            this.dtpDeviceUTC = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabPageLog = new System.Windows.Forms.TabPage();
+            this.gbGetLogByTime = new System.Windows.Forms.GroupBox();
+            this.dtpLogTimeTo = new System.Windows.Forms.DateTimePicker();
+            this.dtpLogTimeFrom = new System.Windows.Forms.DateTimePicker();
+            this.chkGetLogByTime = new System.Windows.Forms.CheckBox();
+            this.lbLogTimeTo = new System.Windows.Forms.Label();
+            this.lbLogTimeFrom = new System.Windows.Forms.Label();
             this.gbGetLogByIndex = new System.Windows.Forms.GroupBox();
             this.chkGetLogByIndex = new System.Windows.Forms.CheckBox();
             this.numIndexTo = new System.Windows.Forms.NumericUpDown();
             this.numIndexFrom = new System.Windows.Forms.NumericUpDown();
-            this.lblbIndexTo = new System.Windows.Forms.Label();
+            this.lbIndexTo = new System.Windows.Forms.Label();
             this.lbIndexFrom = new System.Windows.Forms.Label();
             this.btnGetWholeLog = new System.Windows.Forms.Button();
             this.gridLog = new System.Windows.Forms.DataGridView();
@@ -134,11 +162,16 @@ namespace DL_AIS_Readers
             this.splitContainer.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPageInfo.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gbAdminPassword.SuspendLayout();
+            this.tabPageDateTime.SuspendLayout();
+            this.gbLocalDateTime.SuspendLayout();
+            this.gbDeviceDateTime.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDeviceDstDelta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDeviceTimeZoneOffset)).BeginInit();
             this.tabPageLog.SuspendLayout();
+            this.gbGetLogByTime.SuspendLayout();
             this.gbGetLogByIndex.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numIndexTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numIndexFrom)).BeginInit();
@@ -237,6 +270,7 @@ namespace DL_AIS_Readers
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabPageInfo);
+            this.tabControl.Controls.Add(this.tabPageDateTime);
             this.tabControl.Controls.Add(this.tabPageLog);
             this.tabControl.Controls.Add(this.tabPageRTE);
             this.tabControl.Controls.Add(this.tabPageBlacklist);
@@ -251,7 +285,6 @@ namespace DL_AIS_Readers
             // tabPageInfo
             // 
             this.tabPageInfo.Controls.Add(this.lbDeviceId);
-            this.tabPageInfo.Controls.Add(this.groupBox5);
             this.tabPageInfo.Controls.Add(this.groupBox4);
             this.tabPageInfo.Controls.Add(this.groupBox2);
             this.tabPageInfo.Controls.Add(this.gbAdminPassword);
@@ -273,101 +306,10 @@ namespace DL_AIS_Readers
             this.lbDeviceId.TabIndex = 0;
             this.lbDeviceId.Text = "Device Id:";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox5.Controls.Add(this.btnGetTime);
-            this.groupBox5.Controls.Add(this.btnSubmitLocalDateTime);
-            this.groupBox5.Controls.Add(this.tbDateTimeLocal);
-            this.groupBox5.Controls.Add(this.btnSubmitDateTime);
-            this.groupBox5.Controls.Add(this.label7);
-            this.groupBox5.Controls.Add(this.dateTimeDevice);
-            this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Location = new System.Drawing.Point(403, 162);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(10);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox5.Size = new System.Drawing.Size(358, 139);
-            this.groupBox5.TabIndex = 4;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Date and time (UTC):";
-            // 
-            // btnGetTime
-            // 
-            this.btnGetTime.Location = new System.Drawing.Point(13, 24);
-            this.btnGetTime.Name = "btnGetTime";
-            this.btnGetTime.Size = new System.Drawing.Size(91, 25);
-            this.btnGetTime.TabIndex = 0;
-            this.btnGetTime.Text = "Get from device";
-            this.btnGetTime.UseVisualStyleBackColor = true;
-            this.btnGetTime.Click += new System.EventHandler(this.btnGetTime_Click);
-            // 
-            // btnSubmitLocalDateTime
-            // 
-            this.btnSubmitLocalDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSubmitLocalDateTime.Location = new System.Drawing.Point(59, 104);
-            this.btnSubmitLocalDateTime.Name = "btnSubmitLocalDateTime";
-            this.btnSubmitLocalDateTime.Size = new System.Drawing.Size(140, 25);
-            this.btnSubmitLocalDateTime.TabIndex = 5;
-            this.btnSubmitLocalDateTime.Text = "Submit Local DateTime";
-            this.btnSubmitLocalDateTime.UseVisualStyleBackColor = true;
-            this.btnSubmitLocalDateTime.Click += new System.EventHandler(this.btnSubmitLocalDateTime_Click);
-            // 
-            // tbDateTimeLocal
-            // 
-            this.tbDateTimeLocal.Location = new System.Drawing.Point(205, 53);
-            this.tbDateTimeLocal.Name = "tbDateTimeLocal";
-            this.tbDateTimeLocal.ReadOnly = true;
-            this.tbDateTimeLocal.Size = new System.Drawing.Size(140, 20);
-            this.tbDateTimeLocal.TabIndex = 4;
-            // 
-            // btnSubmitDateTime
-            // 
-            this.btnSubmitDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSubmitDateTime.Enabled = false;
-            this.btnSubmitDateTime.Location = new System.Drawing.Point(205, 104);
-            this.btnSubmitDateTime.Name = "btnSubmitDateTime";
-            this.btnSubmitDateTime.Size = new System.Drawing.Size(140, 25);
-            this.btnSubmitDateTime.TabIndex = 6;
-            this.btnSubmitDateTime.Text = "Submit DateTime";
-            this.btnSubmitDateTime.UseVisualStyleBackColor = true;
-            this.btnSubmitDateTime.Click += new System.EventHandler(this.btnSubmitDateTime_Click);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(118, 56);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(85, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Local DateTime:";
-            // 
-            // dateTimeDevice
-            // 
-            this.dateTimeDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimeDevice.CustomFormat = "d.M.yyyy. HH:mm:ss";
-            this.dateTimeDevice.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimeDevice.Location = new System.Drawing.Point(205, 26);
-            this.dateTimeDevice.Name = "dateTimeDevice";
-            this.dateTimeDevice.Size = new System.Drawing.Size(140, 20);
-            this.dateTimeDevice.TabIndex = 2;
-            this.dateTimeDevice.Visible = false;
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(110, 30);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(93, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Device DateTime:";
-            // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.btnSubmitPassword);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.tbRepeatPasswd);
@@ -379,7 +321,7 @@ namespace DL_AIS_Readers
             this.groupBox4.Margin = new System.Windows.Forms.Padding(10);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox4.Size = new System.Drawing.Size(358, 141);
+            this.groupBox4.Size = new System.Drawing.Size(358, 291);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Change password:";
@@ -387,7 +329,7 @@ namespace DL_AIS_Readers
             // btnSubmitPassword
             // 
             this.btnSubmitPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSubmitPassword.Location = new System.Drawing.Point(138, 105);
+            this.btnSubmitPassword.Location = new System.Drawing.Point(138, 255);
             this.btnSubmitPassword.Name = "btnSubmitPassword";
             this.btnSubmitPassword.Size = new System.Drawing.Size(207, 23);
             this.btnSubmitPassword.TabIndex = 6;
@@ -398,7 +340,7 @@ namespace DL_AIS_Readers
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 79);
+            this.label5.Location = new System.Drawing.Point(12, 109);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(116, 13);
             this.label5.TabIndex = 4;
@@ -407,7 +349,7 @@ namespace DL_AIS_Readers
             // tbRepeatPasswd
             // 
             this.tbRepeatPasswd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRepeatPasswd.Location = new System.Drawing.Point(138, 75);
+            this.tbRepeatPasswd.Location = new System.Drawing.Point(138, 105);
             this.tbRepeatPasswd.Name = "tbRepeatPasswd";
             this.tbRepeatPasswd.Size = new System.Drawing.Size(207, 20);
             this.tbRepeatPasswd.TabIndex = 5;
@@ -415,7 +357,7 @@ namespace DL_AIS_Readers
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 53);
+            this.label4.Location = new System.Drawing.Point(12, 83);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 13);
             this.label4.TabIndex = 2;
@@ -424,7 +366,7 @@ namespace DL_AIS_Readers
             // tbNewPasswd
             // 
             this.tbNewPasswd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbNewPasswd.Location = new System.Drawing.Point(138, 49);
+            this.tbNewPasswd.Location = new System.Drawing.Point(138, 79);
             this.tbNewPasswd.Name = "tbNewPasswd";
             this.tbNewPasswd.Size = new System.Drawing.Size(207, 20);
             this.tbNewPasswd.TabIndex = 3;
@@ -432,7 +374,7 @@ namespace DL_AIS_Readers
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 27);
+            this.label3.Location = new System.Drawing.Point(12, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 0;
@@ -441,7 +383,7 @@ namespace DL_AIS_Readers
             // tbOldPasswd
             // 
             this.tbOldPasswd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbOldPasswd.Location = new System.Drawing.Point(138, 23);
+            this.tbOldPasswd.Location = new System.Drawing.Point(138, 53);
             this.tbOldPasswd.Name = "tbOldPasswd";
             this.tbOldPasswd.Size = new System.Drawing.Size(207, 20);
             this.tbOldPasswd.TabIndex = 1;
@@ -522,8 +464,367 @@ namespace DL_AIS_Readers
             this.tbAdminPassword.Size = new System.Drawing.Size(203, 20);
             this.tbAdminPassword.TabIndex = 0;
             // 
+            // tabPageDateTime
+            // 
+            this.tabPageDateTime.Controls.Add(this.gbLocalDateTime);
+            this.tabPageDateTime.Controls.Add(this.gbDeviceDateTime);
+            this.tabPageDateTime.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDateTime.Name = "tabPageDateTime";
+            this.tabPageDateTime.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDateTime.Size = new System.Drawing.Size(776, 314);
+            this.tabPageDateTime.TabIndex = 6;
+            this.tabPageDateTime.Text = "Date & Time";
+            this.tabPageDateTime.UseVisualStyleBackColor = true;
+            // 
+            // gbLocalDateTime
+            // 
+            this.gbLocalDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbLocalDateTime.Controls.Add(this.tbLocalDstName);
+            this.gbLocalDateTime.Controls.Add(this.lbDstName);
+            this.gbLocalDateTime.Controls.Add(this.tbLocalTimeZoneName);
+            this.gbLocalDateTime.Controls.Add(this.lbLocalTimeZoneName);
+            this.gbLocalDateTime.Controls.Add(this.btnSubmitLocalDateTime);
+            this.gbLocalDateTime.Controls.Add(this.tbLocalUTC);
+            this.gbLocalDateTime.Controls.Add(this.tbLocalDstDelta);
+            this.gbLocalDateTime.Controls.Add(this.tbLocalTimeZoneOffset);
+            this.gbLocalDateTime.Controls.Add(this.tbLocalTimeZoneStandardName);
+            this.gbLocalDateTime.Controls.Add(this.lbLocalTimeZoneStandardName);
+            this.gbLocalDateTime.Controls.Add(this.lbLocalDstDelta);
+            this.gbLocalDateTime.Controls.Add(this.chkLocalDstActive);
+            this.gbLocalDateTime.Controls.Add(this.lbLocalTimeZoneOffset);
+            this.gbLocalDateTime.Controls.Add(this.tbLocalDateTime);
+            this.gbLocalDateTime.Controls.Add(this.lbLocalDateTime);
+            this.gbLocalDateTime.Controls.Add(this.label11);
+            this.gbLocalDateTime.Location = new System.Drawing.Point(403, 13);
+            this.gbLocalDateTime.Margin = new System.Windows.Forms.Padding(10);
+            this.gbLocalDateTime.Name = "gbLocalDateTime";
+            this.gbLocalDateTime.Padding = new System.Windows.Forms.Padding(10);
+            this.gbLocalDateTime.Size = new System.Drawing.Size(358, 288);
+            this.gbLocalDateTime.TabIndex = 1;
+            this.gbLocalDateTime.TabStop = false;
+            this.gbLocalDateTime.Text = "Date and time on host PC:";
+            // 
+            // tbLocalDstName
+            // 
+            this.tbLocalDstName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalDstName.Location = new System.Drawing.Point(153, 130);
+            this.tbLocalDstName.Name = "tbLocalDstName";
+            this.tbLocalDstName.ReadOnly = true;
+            this.tbLocalDstName.Size = new System.Drawing.Size(192, 20);
+            this.tbLocalDstName.TabIndex = 9;
+            // 
+            // lbDstName
+            // 
+            this.lbDstName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbDstName.AutoSize = true;
+            this.lbDstName.Location = new System.Drawing.Point(86, 133);
+            this.lbDstName.Name = "lbDstName";
+            this.lbDstName.Size = new System.Drawing.Size(61, 13);
+            this.lbDstName.TabIndex = 8;
+            this.lbDstName.Text = "DST name:";
+            this.lbDstName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tbLocalTimeZoneName
+            // 
+            this.tbLocalTimeZoneName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalTimeZoneName.Location = new System.Drawing.Point(153, 78);
+            this.tbLocalTimeZoneName.Name = "tbLocalTimeZoneName";
+            this.tbLocalTimeZoneName.ReadOnly = true;
+            this.tbLocalTimeZoneName.Size = new System.Drawing.Size(192, 20);
+            this.tbLocalTimeZoneName.TabIndex = 5;
+            // 
+            // lbLocalTimeZoneName
+            // 
+            this.lbLocalTimeZoneName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLocalTimeZoneName.AutoSize = true;
+            this.lbLocalTimeZoneName.Location = new System.Drawing.Point(55, 81);
+            this.lbLocalTimeZoneName.Name = "lbLocalTimeZoneName";
+            this.lbLocalTimeZoneName.Size = new System.Drawing.Size(88, 13);
+            this.lbLocalTimeZoneName.TabIndex = 4;
+            this.lbLocalTimeZoneName.Text = "Time zone name:";
+            this.lbLocalTimeZoneName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // btnSubmitLocalDateTime
+            // 
+            this.btnSubmitLocalDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSubmitLocalDateTime.Location = new System.Drawing.Point(167, 253);
+            this.btnSubmitLocalDateTime.Name = "btnSubmitLocalDateTime";
+            this.btnSubmitLocalDateTime.Size = new System.Drawing.Size(178, 25);
+            this.btnSubmitLocalDateTime.TabIndex = 15;
+            this.btnSubmitLocalDateTime.Text = "Submit Local DateTime";
+            this.btnSubmitLocalDateTime.UseVisualStyleBackColor = true;
+            this.btnSubmitLocalDateTime.Click += new System.EventHandler(this.btnSubmitLocalDateTime_Click);
+            // 
+            // tbLocalUTC
+            // 
+            this.tbLocalUTC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalUTC.Location = new System.Drawing.Point(205, 26);
+            this.tbLocalUTC.Name = "tbLocalUTC";
+            this.tbLocalUTC.ReadOnly = true;
+            this.tbLocalUTC.Size = new System.Drawing.Size(140, 20);
+            this.tbLocalUTC.TabIndex = 1;
+            // 
+            // tbLocalDstDelta
+            // 
+            this.tbLocalDstDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalDstDelta.Location = new System.Drawing.Point(205, 156);
+            this.tbLocalDstDelta.Name = "tbLocalDstDelta";
+            this.tbLocalDstDelta.ReadOnly = true;
+            this.tbLocalDstDelta.Size = new System.Drawing.Size(140, 20);
+            this.tbLocalDstDelta.TabIndex = 11;
+            // 
+            // tbLocalTimeZoneOffset
+            // 
+            this.tbLocalTimeZoneOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalTimeZoneOffset.Location = new System.Drawing.Point(205, 104);
+            this.tbLocalTimeZoneOffset.Name = "tbLocalTimeZoneOffset";
+            this.tbLocalTimeZoneOffset.ReadOnly = true;
+            this.tbLocalTimeZoneOffset.Size = new System.Drawing.Size(140, 20);
+            this.tbLocalTimeZoneOffset.TabIndex = 7;
+            // 
+            // tbLocalTimeZoneStandardName
+            // 
+            this.tbLocalTimeZoneStandardName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalTimeZoneStandardName.Location = new System.Drawing.Point(153, 52);
+            this.tbLocalTimeZoneStandardName.Name = "tbLocalTimeZoneStandardName";
+            this.tbLocalTimeZoneStandardName.ReadOnly = true;
+            this.tbLocalTimeZoneStandardName.Size = new System.Drawing.Size(192, 20);
+            this.tbLocalTimeZoneStandardName.TabIndex = 3;
+            // 
+            // lbLocalTimeZoneStandardName
+            // 
+            this.lbLocalTimeZoneStandardName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLocalTimeZoneStandardName.AutoSize = true;
+            this.lbLocalTimeZoneStandardName.Location = new System.Drawing.Point(15, 55);
+            this.lbLocalTimeZoneStandardName.Name = "lbLocalTimeZoneStandardName";
+            this.lbLocalTimeZoneStandardName.Size = new System.Drawing.Size(132, 13);
+            this.lbLocalTimeZoneStandardName.TabIndex = 2;
+            this.lbLocalTimeZoneStandardName.Text = "Time zone standard name:";
+            this.lbLocalTimeZoneStandardName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lbLocalDstDelta
+            // 
+            this.lbLocalDstDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLocalDstDelta.AutoSize = true;
+            this.lbLocalDstDelta.Location = new System.Drawing.Point(79, 159);
+            this.lbLocalDstDelta.Name = "lbLocalDstDelta";
+            this.lbLocalDstDelta.Size = new System.Drawing.Size(120, 13);
+            this.lbLocalDstDelta.TabIndex = 10;
+            this.lbLocalDstDelta.Text = "Device DST delta [min]:";
+            // 
+            // chkLocalDstActive
+            // 
+            this.chkLocalDstActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkLocalDstActive.AutoCheck = false;
+            this.chkLocalDstActive.AutoSize = true;
+            this.chkLocalDstActive.Location = new System.Drawing.Point(205, 182);
+            this.chkLocalDstActive.Name = "chkLocalDstActive";
+            this.chkLocalDstActive.Size = new System.Drawing.Size(81, 17);
+            this.chkLocalDstActive.TabIndex = 12;
+            this.chkLocalDstActive.Text = "DST Active";
+            this.chkLocalDstActive.UseVisualStyleBackColor = true;
+            // 
+            // lbLocalTimeZoneOffset
+            // 
+            this.lbLocalTimeZoneOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLocalTimeZoneOffset.AutoSize = true;
+            this.lbLocalTimeZoneOffset.Location = new System.Drawing.Point(86, 107);
+            this.lbLocalTimeZoneOffset.Name = "lbLocalTimeZoneOffset";
+            this.lbLocalTimeZoneOffset.Size = new System.Drawing.Size(113, 13);
+            this.lbLocalTimeZoneOffset.TabIndex = 6;
+            this.lbLocalTimeZoneOffset.Text = "Time zone offset [min]:";
+            // 
+            // tbLocalDateTime
+            // 
+            this.tbLocalDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLocalDateTime.Location = new System.Drawing.Point(205, 201);
+            this.tbLocalDateTime.Name = "tbLocalDateTime";
+            this.tbLocalDateTime.ReadOnly = true;
+            this.tbLocalDateTime.Size = new System.Drawing.Size(140, 20);
+            this.tbLocalDateTime.TabIndex = 14;
+            // 
+            // lbLocalDateTime
+            // 
+            this.lbLocalDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLocalDateTime.AutoSize = true;
+            this.lbLocalDateTime.Location = new System.Drawing.Point(114, 204);
+            this.lbLocalDateTime.Name = "lbLocalDateTime";
+            this.lbLocalDateTime.Size = new System.Drawing.Size(85, 13);
+            this.lbLocalDateTime.TabIndex = 13;
+            this.lbLocalDateTime.Text = "Local DateTime:";
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(112, 30);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(87, 13);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "DateTime (UTC):";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // gbDeviceDateTime
+            // 
+            this.gbDeviceDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbDeviceDateTime.Controls.Add(this.numDeviceDstDelta);
+            this.gbDeviceDateTime.Controls.Add(this.numDeviceTimeZoneOffset);
+            this.gbDeviceDateTime.Controls.Add(this.dtpDeviceTime);
+            this.gbDeviceDateTime.Controls.Add(this.label1);
+            this.gbDeviceDateTime.Controls.Add(this.chkDeviceDstActive);
+            this.gbDeviceDateTime.Controls.Add(this.lbDeviceDstDelta);
+            this.gbDeviceDateTime.Controls.Add(this.lbDeviceTimeZoneOffset);
+            this.gbDeviceDateTime.Controls.Add(this.btnGetTime);
+            this.gbDeviceDateTime.Controls.Add(this.btnSubmitDateTime);
+            this.gbDeviceDateTime.Controls.Add(this.dtpDeviceUTC);
+            this.gbDeviceDateTime.Controls.Add(this.label6);
+            this.gbDeviceDateTime.Location = new System.Drawing.Point(10, 13);
+            this.gbDeviceDateTime.Margin = new System.Windows.Forms.Padding(10);
+            this.gbDeviceDateTime.Name = "gbDeviceDateTime";
+            this.gbDeviceDateTime.Padding = new System.Windows.Forms.Padding(10);
+            this.gbDeviceDateTime.Size = new System.Drawing.Size(380, 288);
+            this.gbDeviceDateTime.TabIndex = 0;
+            this.gbDeviceDateTime.TabStop = false;
+            this.gbDeviceDateTime.Text = "Device date and time (UTC):";
+            // 
+            // numDeviceDstDelta
+            // 
+            this.numDeviceDstDelta.Location = new System.Drawing.Point(227, 104);
+            this.numDeviceDstDelta.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.numDeviceDstDelta.Minimum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            -2147483648});
+            this.numDeviceDstDelta.Name = "numDeviceDstDelta";
+            this.numDeviceDstDelta.Size = new System.Drawing.Size(140, 20);
+            this.numDeviceDstDelta.TabIndex = 5;
+            // 
+            // numDeviceTimeZoneOffset
+            // 
+            this.numDeviceTimeZoneOffset.Location = new System.Drawing.Point(227, 78);
+            this.numDeviceTimeZoneOffset.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numDeviceTimeZoneOffset.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+            this.numDeviceTimeZoneOffset.Name = "numDeviceTimeZoneOffset";
+            this.numDeviceTimeZoneOffset.Size = new System.Drawing.Size(140, 20);
+            this.numDeviceTimeZoneOffset.TabIndex = 3;
+            // 
+            // dtpDeviceTime
+            // 
+            this.dtpDeviceTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtpDeviceTime.CustomFormat = "d.M.yyyy. HH:mm:ss";
+            this.dtpDeviceTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDeviceTime.Location = new System.Drawing.Point(227, 178);
+            this.dtpDeviceTime.Name = "dtpDeviceTime";
+            this.dtpDeviceTime.Size = new System.Drawing.Size(140, 20);
+            this.dtpDeviceTime.TabIndex = 8;
+            this.dtpDeviceTime.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(24, 182);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(203, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Device DateTime (counting zone && DST):";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // chkDeviceDstActive
+            // 
+            this.chkDeviceDstActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDeviceDstActive.AutoSize = true;
+            this.chkDeviceDstActive.Location = new System.Drawing.Point(227, 130);
+            this.chkDeviceDstActive.Name = "chkDeviceDstActive";
+            this.chkDeviceDstActive.Size = new System.Drawing.Size(118, 17);
+            this.chkDeviceDstActive.TabIndex = 6;
+            this.chkDeviceDstActive.Text = "Device DST Active";
+            this.chkDeviceDstActive.UseVisualStyleBackColor = true;
+            // 
+            // lbDeviceDstDelta
+            // 
+            this.lbDeviceDstDelta.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbDeviceDstDelta.AutoSize = true;
+            this.lbDeviceDstDelta.Location = new System.Drawing.Point(101, 107);
+            this.lbDeviceDstDelta.Name = "lbDeviceDstDelta";
+            this.lbDeviceDstDelta.Size = new System.Drawing.Size(120, 13);
+            this.lbDeviceDstDelta.TabIndex = 4;
+            this.lbDeviceDstDelta.Text = "Device DST delta [min]:";
+            // 
+            // lbDeviceTimeZoneOffset
+            // 
+            this.lbDeviceTimeZoneOffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbDeviceTimeZoneOffset.AutoSize = true;
+            this.lbDeviceTimeZoneOffset.Location = new System.Drawing.Point(75, 81);
+            this.lbDeviceTimeZoneOffset.Name = "lbDeviceTimeZoneOffset";
+            this.lbDeviceTimeZoneOffset.Size = new System.Drawing.Size(146, 13);
+            this.lbDeviceTimeZoneOffset.TabIndex = 2;
+            this.lbDeviceTimeZoneOffset.Text = "Device time zone offset [min]:";
+            // 
+            // btnGetTime
+            // 
+            this.btnGetTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGetTime.Location = new System.Drawing.Point(189, 222);
+            this.btnGetTime.Name = "btnGetTime";
+            this.btnGetTime.Size = new System.Drawing.Size(178, 25);
+            this.btnGetTime.TabIndex = 9;
+            this.btnGetTime.Text = "Refresh";
+            this.btnGetTime.UseVisualStyleBackColor = true;
+            this.btnGetTime.Click += new System.EventHandler(this.btnGetTime_Click);
+            // 
+            // btnSubmitDateTime
+            // 
+            this.btnSubmitDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSubmitDateTime.Enabled = false;
+            this.btnSubmitDateTime.Location = new System.Drawing.Point(189, 253);
+            this.btnSubmitDateTime.Name = "btnSubmitDateTime";
+            this.btnSubmitDateTime.Size = new System.Drawing.Size(178, 25);
+            this.btnSubmitDateTime.TabIndex = 10;
+            this.btnSubmitDateTime.Text = "Submit manually set DateTime";
+            this.btnSubmitDateTime.UseVisualStyleBackColor = true;
+            this.btnSubmitDateTime.Click += new System.EventHandler(this.btnSubmitDateTime_Click);
+            // 
+            // dtpDeviceUTC
+            // 
+            this.dtpDeviceUTC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dtpDeviceUTC.CustomFormat = "d.M.yyyy. HH:mm:ss";
+            this.dtpDeviceUTC.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDeviceUTC.Location = new System.Drawing.Point(227, 26);
+            this.dtpDeviceUTC.Name = "dtpDeviceUTC";
+            this.dtpDeviceUTC.Size = new System.Drawing.Size(140, 20);
+            this.dtpDeviceUTC.TabIndex = 1;
+            this.dtpDeviceUTC.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(97, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(124, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Device DateTime (UTC):";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // tabPageLog
             // 
+            this.tabPageLog.Controls.Add(this.gbGetLogByTime);
             this.tabPageLog.Controls.Add(this.gbGetLogByIndex);
             this.tabPageLog.Controls.Add(this.btnGetWholeLog);
             this.tabPageLog.Controls.Add(this.gridLog);
@@ -535,17 +836,86 @@ namespace DL_AIS_Readers
             this.tabPageLog.Text = "Device Log";
             this.tabPageLog.UseVisualStyleBackColor = true;
             // 
+            // gbGetLogByTime
+            // 
+            this.gbGetLogByTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbGetLogByTime.Controls.Add(this.dtpLogTimeTo);
+            this.gbGetLogByTime.Controls.Add(this.dtpLogTimeFrom);
+            this.gbGetLogByTime.Controls.Add(this.chkGetLogByTime);
+            this.gbGetLogByTime.Controls.Add(this.lbLogTimeTo);
+            this.gbGetLogByTime.Controls.Add(this.lbLogTimeFrom);
+            this.gbGetLogByTime.Location = new System.Drawing.Point(620, 134);
+            this.gbGetLogByTime.Name = "gbGetLogByTime";
+            this.gbGetLogByTime.Size = new System.Drawing.Size(142, 119);
+            this.gbGetLogByTime.TabIndex = 3;
+            this.gbGetLogByTime.TabStop = false;
+            // 
+            // dtpLogTimeTo
+            // 
+            this.dtpLogTimeTo.CustomFormat = "d.M.yy. HH:mm:ss";
+            this.dtpLogTimeTo.Enabled = false;
+            this.dtpLogTimeTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpLogTimeTo.Location = new System.Drawing.Point(6, 89);
+            this.dtpLogTimeTo.Name = "dtpLogTimeTo";
+            this.dtpLogTimeTo.Size = new System.Drawing.Size(130, 20);
+            this.dtpLogTimeTo.TabIndex = 8;
+            // 
+            // dtpLogTimeFrom
+            // 
+            this.dtpLogTimeFrom.CustomFormat = "d.M.yy. HH:mm:ss";
+            this.dtpLogTimeFrom.Enabled = false;
+            this.dtpLogTimeFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpLogTimeFrom.Location = new System.Drawing.Point(6, 50);
+            this.dtpLogTimeFrom.Name = "dtpLogTimeFrom";
+            this.dtpLogTimeFrom.Size = new System.Drawing.Size(130, 20);
+            this.dtpLogTimeFrom.TabIndex = 7;
+            // 
+            // chkGetLogByTime
+            // 
+            this.chkGetLogByTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkGetLogByTime.AutoSize = true;
+            this.chkGetLogByTime.Location = new System.Drawing.Point(12, 14);
+            this.chkGetLogByTime.Name = "chkGetLogByTime";
+            this.chkGetLogByTime.Size = new System.Drawing.Size(104, 17);
+            this.chkGetLogByTime.TabIndex = 6;
+            this.chkGetLogByTime.Text = "Get Log by Time";
+            this.chkGetLogByTime.UseVisualStyleBackColor = true;
+            this.chkGetLogByTime.CheckedChanged += new System.EventHandler(this.chkGetLogByTime_CheckedChanged);
+            this.chkGetLogByTime.Click += new System.EventHandler(this.chkGetLogByTime_Click);
+            // 
+            // lbLogTimeTo
+            // 
+            this.lbLogTimeTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLogTimeTo.AutoSize = true;
+            this.lbLogTimeTo.Enabled = false;
+            this.lbLogTimeTo.Location = new System.Drawing.Point(6, 73);
+            this.lbLogTimeTo.Name = "lbLogTimeTo";
+            this.lbLogTimeTo.Size = new System.Drawing.Size(68, 13);
+            this.lbLogTimeTo.TabIndex = 2;
+            this.lbLogTimeTo.Text = "DateTime to:";
+            // 
+            // lbLogTimeFrom
+            // 
+            this.lbLogTimeFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLogTimeFrom.AutoSize = true;
+            this.lbLogTimeFrom.Enabled = false;
+            this.lbLogTimeFrom.Location = new System.Drawing.Point(6, 34);
+            this.lbLogTimeFrom.Name = "lbLogTimeFrom";
+            this.lbLogTimeFrom.Size = new System.Drawing.Size(79, 13);
+            this.lbLogTimeFrom.TabIndex = 0;
+            this.lbLogTimeFrom.Text = "DateTime from:";
+            // 
             // gbGetLogByIndex
             // 
             this.gbGetLogByIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbGetLogByIndex.Controls.Add(this.chkGetLogByIndex);
             this.gbGetLogByIndex.Controls.Add(this.numIndexTo);
             this.gbGetLogByIndex.Controls.Add(this.numIndexFrom);
-            this.gbGetLogByIndex.Controls.Add(this.lblbIndexTo);
+            this.gbGetLogByIndex.Controls.Add(this.lbIndexTo);
             this.gbGetLogByIndex.Controls.Add(this.lbIndexFrom);
             this.gbGetLogByIndex.Location = new System.Drawing.Point(620, 9);
             this.gbGetLogByIndex.Name = "gbGetLogByIndex";
-            this.gbGetLogByIndex.Size = new System.Drawing.Size(142, 137);
+            this.gbGetLogByIndex.Size = new System.Drawing.Size(142, 119);
             this.gbGetLogByIndex.TabIndex = 2;
             this.gbGetLogByIndex.TabStop = false;
             // 
@@ -559,11 +929,14 @@ namespace DL_AIS_Readers
             this.chkGetLogByIndex.TabIndex = 6;
             this.chkGetLogByIndex.Text = "Get Log by Index";
             this.chkGetLogByIndex.UseVisualStyleBackColor = true;
+            this.chkGetLogByIndex.CheckedChanged += new System.EventHandler(this.chkGetLogByIndex_CheckedChanged);
+            this.chkGetLogByIndex.Click += new System.EventHandler(this.chkGetLogByIndex_Click);
             // 
             // numIndexTo
             // 
             this.numIndexTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numIndexTo.Location = new System.Drawing.Point(9, 103);
+            this.numIndexTo.Enabled = false;
+            this.numIndexTo.Location = new System.Drawing.Point(9, 89);
             this.numIndexTo.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -577,7 +950,8 @@ namespace DL_AIS_Readers
             // numIndexFrom
             // 
             this.numIndexFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numIndexFrom.Location = new System.Drawing.Point(9, 59);
+            this.numIndexFrom.Enabled = false;
+            this.numIndexFrom.Location = new System.Drawing.Point(9, 50);
             this.numIndexFrom.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -588,21 +962,23 @@ namespace DL_AIS_Readers
             this.numIndexFrom.TabIndex = 3;
             this.numIndexFrom.Validated += new System.EventHandler(this.numIndexFrom_Validated);
             // 
-            // lblbIndexTo
+            // lbIndexTo
             // 
-            this.lblbIndexTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblbIndexTo.AutoSize = true;
-            this.lblbIndexTo.Location = new System.Drawing.Point(6, 87);
-            this.lblbIndexTo.Name = "lblbIndexTo";
-            this.lblbIndexTo.Size = new System.Drawing.Size(48, 13);
-            this.lblbIndexTo.TabIndex = 2;
-            this.lblbIndexTo.Text = "Index to:";
+            this.lbIndexTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbIndexTo.AutoSize = true;
+            this.lbIndexTo.Enabled = false;
+            this.lbIndexTo.Location = new System.Drawing.Point(6, 73);
+            this.lbIndexTo.Name = "lbIndexTo";
+            this.lbIndexTo.Size = new System.Drawing.Size(48, 13);
+            this.lbIndexTo.TabIndex = 2;
+            this.lbIndexTo.Text = "Index to:";
             // 
             // lbIndexFrom
             // 
             this.lbIndexFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbIndexFrom.AutoSize = true;
-            this.lbIndexFrom.Location = new System.Drawing.Point(6, 43);
+            this.lbIndexFrom.Enabled = false;
+            this.lbIndexFrom.Location = new System.Drawing.Point(6, 34);
             this.lbIndexFrom.Name = "lbIndexFrom";
             this.lbIndexFrom.Size = new System.Drawing.Size(59, 13);
             this.lbIndexFrom.TabIndex = 0;
@@ -610,8 +986,8 @@ namespace DL_AIS_Readers
             // 
             // btnGetWholeLog
             // 
-            this.btnGetWholeLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGetWholeLog.Location = new System.Drawing.Point(620, 156);
+            this.btnGetWholeLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGetWholeLog.Location = new System.Drawing.Point(620, 278);
             this.btnGetWholeLog.Name = "btnGetWholeLog";
             this.btnGetWholeLog.Size = new System.Drawing.Size(142, 23);
             this.btnGetWholeLog.TabIndex = 1;
@@ -1105,8 +1481,8 @@ namespace DL_AIS_Readers
             // 
             // chkRelayState
             // 
+            this.chkRelayState.AutoCheck = false;
             this.chkRelayState.AutoSize = true;
-            this.chkRelayState.Enabled = false;
             this.chkRelayState.Location = new System.Drawing.Point(104, 125);
             this.chkRelayState.Name = "chkRelayState";
             this.chkRelayState.Size = new System.Drawing.Size(81, 17);
@@ -1116,8 +1492,8 @@ namespace DL_AIS_Readers
             // 
             // chkDoorState
             // 
+            this.chkDoorState.AutoCheck = false;
             this.chkDoorState.AutoSize = true;
-            this.chkDoorState.Enabled = false;
             this.chkDoorState.Location = new System.Drawing.Point(9, 148);
             this.chkDoorState.Name = "chkDoorState";
             this.chkDoorState.Size = new System.Drawing.Size(77, 17);
@@ -1127,8 +1503,8 @@ namespace DL_AIS_Readers
             // 
             // chkIntercomState
             // 
+            this.chkIntercomState.AutoCheck = false;
             this.chkIntercomState.AutoSize = true;
-            this.chkIntercomState.Enabled = false;
             this.chkIntercomState.Location = new System.Drawing.Point(104, 148);
             this.chkIntercomState.Name = "chkIntercomState";
             this.chkIntercomState.Size = new System.Drawing.Size(95, 17);
@@ -1290,14 +1666,21 @@ namespace DL_AIS_Readers
             this.tabControl.ResumeLayout(false);
             this.tabPageInfo.ResumeLayout(false);
             this.tabPageInfo.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.gbAdminPassword.ResumeLayout(false);
             this.gbAdminPassword.PerformLayout();
+            this.tabPageDateTime.ResumeLayout(false);
+            this.gbLocalDateTime.ResumeLayout(false);
+            this.gbLocalDateTime.PerformLayout();
+            this.gbDeviceDateTime.ResumeLayout(false);
+            this.gbDeviceDateTime.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDeviceDstDelta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDeviceTimeZoneOffset)).EndInit();
             this.tabPageLog.ResumeLayout(false);
+            this.gbGetLogByTime.ResumeLayout(false);
+            this.gbGetLogByTime.PerformLayout();
             this.gbGetLogByIndex.ResumeLayout(false);
             this.gbGetLogByIndex.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numIndexTo)).EndInit();
@@ -1336,7 +1719,6 @@ namespace DL_AIS_Readers
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox gbAdminPassword;
         private System.Windows.Forms.TextBox tbAdminPassword;
-        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbRepeatPasswd;
@@ -1345,10 +1727,6 @@ namespace DL_AIS_Readers
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbOldPasswd;
         private System.Windows.Forms.Button btnSubmitPassword;
-        private System.Windows.Forms.Button btnSubmitDateTime;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DateTimePicker dateTimeDevice;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnGetInfo;
         private System.Windows.Forms.Label lbDeviceId;
         private System.Windows.Forms.Button btnSetAdminPassword;
@@ -1387,9 +1765,6 @@ namespace DL_AIS_Readers
         private System.Windows.Forms.RichTextBox tbLog;
         private System.Windows.Forms.RichTextBox tbInfo;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.TextBox tbDateTimeLocal;
-        private System.Windows.Forms.Button btnGetTime;
-        private System.Windows.Forms.Button btnSubmitLocalDateTime;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
@@ -1416,8 +1791,44 @@ namespace DL_AIS_Readers
         private System.Windows.Forms.CheckBox chkGetLogByIndex;
         private System.Windows.Forms.NumericUpDown numIndexTo;
         private System.Windows.Forms.NumericUpDown numIndexFrom;
-        private System.Windows.Forms.Label lblbIndexTo;
+        private System.Windows.Forms.Label lbIndexTo;
         private System.Windows.Forms.Label lbIndexFrom;
+        private System.Windows.Forms.TabPage tabPageDateTime;
+        private System.Windows.Forms.GroupBox gbDeviceDateTime;
+        private System.Windows.Forms.Button btnGetTime;
+        private System.Windows.Forms.Button btnSubmitDateTime;
+        private System.Windows.Forms.DateTimePicker dtpDeviceUTC;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox gbLocalDateTime;
+        private System.Windows.Forms.Label lbLocalDstDelta;
+        private System.Windows.Forms.CheckBox chkLocalDstActive;
+        private System.Windows.Forms.Label lbLocalTimeZoneOffset;
+        private System.Windows.Forms.TextBox tbLocalDateTime;
+        private System.Windows.Forms.Label lbLocalDateTime;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lbDeviceDstDelta;
+        private System.Windows.Forms.Label lbDeviceTimeZoneOffset;
+        private System.Windows.Forms.TextBox tbLocalTimeZoneStandardName;
+        private System.Windows.Forms.Label lbLocalTimeZoneStandardName;
+        private System.Windows.Forms.TextBox tbLocalUTC;
+        private System.Windows.Forms.TextBox tbLocalDstDelta;
+        private System.Windows.Forms.TextBox tbLocalTimeZoneOffset;
+        private System.Windows.Forms.CheckBox chkDeviceDstActive;
+        private System.Windows.Forms.Button btnSubmitLocalDateTime;
+        private System.Windows.Forms.DateTimePicker dtpDeviceTime;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbLocalTimeZoneName;
+        private System.Windows.Forms.Label lbLocalTimeZoneName;
+        private System.Windows.Forms.TextBox tbLocalDstName;
+        private System.Windows.Forms.Label lbDstName;
+        private System.Windows.Forms.NumericUpDown numDeviceDstDelta;
+        private System.Windows.Forms.NumericUpDown numDeviceTimeZoneOffset;
+        private System.Windows.Forms.GroupBox gbGetLogByTime;
+        private System.Windows.Forms.CheckBox chkGetLogByTime;
+        private System.Windows.Forms.Label lbLogTimeTo;
+        private System.Windows.Forms.Label lbLogTimeFrom;
+        private System.Windows.Forms.DateTimePicker dtpLogTimeTo;
+        private System.Windows.Forms.DateTimePicker dtpLogTimeFrom;
     }
 
     class TypesHelper

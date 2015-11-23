@@ -108,7 +108,24 @@ namespace DL_AIS_Readers
                     if (adjustmentRule.DateStart <= dateTime && adjustmentRule.DateEnd >= dateTime)
                     {
                         delta = adjustmentRule.DaylightDelta;
+                        break;
                     }
+                }
+            }
+
+            return delta;
+        }
+        
+        public static TimeSpan getDaylightDeltaForSpecificYear(TimeZoneInfo timeZoneInfo, Int32 year)
+        {
+            TimeSpan delta = TimeSpan.Zero;
+
+            foreach (var adjustmentRule in timeZoneInfo.GetAdjustmentRules())
+            {
+                if ((adjustmentRule.DateStart.Year <= year) && (adjustmentRule.DateEnd.Year >= year))
+                {
+                    delta = adjustmentRule.DaylightDelta;
+                    break;
                 }
             }
 

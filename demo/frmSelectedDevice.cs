@@ -58,13 +58,16 @@ namespace DL_AIS_Readers
 
         private void frmSelectedDevice_Load(object sender, EventArgs e)
         {
+            TimeZoneInfo localZone = TimeZoneInfo.Local;
+
             gbAdminPassword.Text += "\"" + AdminPassword + "\"";
             SetupGridLog(gridLog);
             SetupGridLog(gridRTE);
             this.Text = "Device Type: " + device_type + "     Device Id: " + device_id;
             lbDeviceId.Text = "Device handle: " + hnd_device;
-            tbDateTimeLocal.Text = DateTime.Now.ToString();
-            Helper.PadTextBoxLeft(ref tbDateTimeLocal, 1);
+
+            DisplayLocalDateTimeNow();
+
             PercentUpdated = new PercentUpdatedEventHandler(ProgressEvent);
             LogFinished = new LogFinishedEventHandler(LogFinishedEvent);
             DeviceDisconnected = new DeviceDisconnectedEventHandler(DeviceDisconnectedEvent);
@@ -225,9 +228,13 @@ namespace DL_AIS_Readers
 
                 DateTime utc = DateTime.UtcNow;
                 status = ais_readers.AIS_GetTime(hnd_device, out dt, out timezone, out is_dst, out dst_bias);
+
+                // Test vectors: ---------------------------------
                 //is_dst = false;
                 //timezone = 9;
-                dst_bias = 9;
+                //dst_bias = 9;
+                // -----------------------------------------------
+
                 TimeSpan udc_diff = dt - utc;
                 if (status != DL_STATUS.DL_OK)
                 {
@@ -282,10 +289,39 @@ namespace DL_AIS_Readers
             }
         }
 
+        private void DisplayLocalDateTimeNow() 
+        {
+            TimeZoneInfo localZone = TimeZoneInfo.Local;
+            DateTime now = DateTime.Now;
+
+            tbLocalDateTime.Text = now.ToString();
+            tbLocalUTC.Text = DateTime.UtcNow.ToString();
+            tbLocalTimeZoneStandardName.Text = localZone.StandardName;
+            tbLocalTimeZoneName.Text = localZone.DisplayName;
+            tbLocalTimeZoneOffset.Text = (localZone.BaseUtcOffset.Hours * 60 + localZone.BaseUtcOffset.Minutes).ToString();
+
+            if (localZone.SupportsDaylightSavingTime)
+            {
+                TimeSpan local_dst_delta = Helper.getDaylightDeltaForSpecificYear(localZone, now.Year);
+
+                tbLocalDstName.Text = localZone.DaylightName;
+                tbLocalDstDelta.Text = (local_dst_delta.Hours * 60 + local_dst_delta.Minutes).ToString();
+                chkLocalDstActive.Checked = localZone.IsDaylightSavingTime(now);
+            }
+            else
+            {
+                tbLocalDstName.Text = "";
+                tbLocalDstDelta.Text = "";
+                chkLocalDstActive.Checked = false;
+            }
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
-            tbDateTimeLocal.Text = DateTime.Now.ToString();
-            Helper.PadTextBoxLeft(ref tbDateTimeLocal, 1);
+            if (tabControl.SelectedTab == tabPageDateTime)
+            {
+                DisplayLocalDateTimeNow();
+            }
 
             UInt32 intercom, door, relay_state;
 
@@ -300,11 +336,14 @@ namespace DL_AIS_Readers
 
         private void btnGetTime_Click(object sender, EventArgs e)
         {
-            DateTime dt;
             DL_STATUS status;
             string status_msg;
             Int32 timezone, dst_bias;
             bool is_dst;
+            DateTime utc = DateTime.UtcNow;
+            DateTime dt;
+            TimeSpan udc_diff, total_time_offset;
+            TimeZoneInfo localZone = TimeZoneInfo.Local;
 
             try
             {
@@ -316,11 +355,58 @@ namespace DL_AIS_Readers
                 }
                 else
                 {
-                    dateTimeDevice.Value = dt;
-                    dateTimeDevice.Visible = true;
+                    // Test vectors: ---------------------------------
+                    //is_dst = false;
+                    //timezone = 9;
+                    //dst_bias = 9;
+                    // -----------------------------------------------
+
+                    total_time_offset = new TimeSpan(0, timezone, 0);
+                    if (is_dst)
+                        total_time_offset += new TimeSpan(0, dst_bias, 0);
+
+                    udc_diff = dt - utc;
+                    dtpDeviceUTC.Value = dt;
+                    numDeviceTimeZoneOffset.Value = timezone;
+                    numDeviceDstDelta.Value = dst_bias;
+                    chkDeviceDstActive.Checked = is_dst;
+                    dtpDeviceTime.Value = dt + total_time_offset;
+
+                    dtpDeviceUTC.Visible = true;
+                    dtpDeviceTime.Visible = true;
                     btnSubmitDateTime.Enabled = true;
+                    
                     Helper.AppendText(tbLog, "Device date and time read successfully.\n", Color.Green);
+                    if ((localZone.BaseUtcOffset.Hours * 60 + localZone.BaseUtcOffset.Minutes) != timezone)
+                    {
+                        Helper.AppendText(tbLog, "Device time zone offset differs from the local one:\n", Color.Red);
+                        Helper.AppendText(tbLog, "\tDevice time zone offset: " + timezone + " min.\n", Color.Red);
+                        Helper.AppendText(tbLog, "\tLocal time zone offset: " + (localZone.BaseUtcOffset.Hours * 60 + localZone.BaseUtcOffset.Minutes) + " min.\n", Color.Red);
+                    }
+                    if (localZone.IsDaylightSavingTime(dt) != is_dst)
+                    {
+                        Helper.AppendText(tbLog, "Device daylight saving differs from the local one:\n", Color.Red);
+                        Helper.AppendText(tbLog, String.Format("\tDevice daylight saving: {0}\n", is_dst ? "active" : "inactive"), Color.Red);
+                        Helper.AppendText(tbLog, String.Format("\tLocal daylight saving for device date_time: {0}\n", localZone.IsDaylightSavingTime(dt) ? "active" : "inactive"), Color.Red);
+                    }
+                    else if (is_dst)
+                    {
+                        TimeSpan local_dst_delta = Helper.getDaylightDeltaOnSpecificDateTime(localZone, dt);
+                        if ((local_dst_delta.Hours * 60 + local_dst_delta.Minutes) != dst_bias)
+                        {
+                            Helper.AppendText(tbLog, "Device daylight saving bias differs from the local one:\n", Color.Red);
+                            Helper.AppendText(tbLog, "\tDevice daylight saving bias: " + dst_bias + " min.\n", Color.Red);
+                            Helper.AppendText(tbLog, "\tLocal daylight saving bias for device date_time: " + (local_dst_delta.Hours * 60 + local_dst_delta.Minutes) + " min.\n", Color.Red);
+                        }
+                    }
+                    if (Math.Abs(udc_diff.TotalSeconds) > ais_readers.MAX_DATE_TIME_DIFF_IN_SEC)
+                    {
+                        Helper.AppendText(tbLog, String.Format("Device date_time (UTC) differs from the local UTC time, on this PC, by: {0:F4}", udc_diff.TotalDays) + " days\n", Color.Red);
+                    }
+
                     Helper.SetStatusOk(statusLabel);
+
+                    btnSubmitDateTime.Enabled = true;
                 }
             }
             catch (Exception exception)
@@ -330,14 +416,14 @@ namespace DL_AIS_Readers
             }
         }
 
-        private void SubmitDateTime(DateTime dt, string MsgOnSuccess)
+        private void SubmitDateTime(DateTime dt, Int32 time_zone, bool dst, Int32 dst_bias, string MsgOnSuccess)
         {
             DL_STATUS status;
             string status_msg;
 
             try
             {
-                status = ais_readers.AIS_SetTime(hnd_device, AdminPassword, dt);
+                status = ais_readers.AIS_SetTime(hnd_device, AdminPassword, dt, time_zone, dst, dst_bias);
                 if (status != DL_STATUS.DL_OK)
                 {
                     status_msg = ais_readers.status2str(status);
@@ -345,11 +431,9 @@ namespace DL_AIS_Readers
                 }
                 else
                 {
-                    dateTimeDevice.Value = dt;
-                    dateTimeDevice.Visible = true;
-                    btnGetTime.Width = 91;
                     Helper.AppendText(tbLog, MsgOnSuccess, Color.Green);
                     Helper.SetStatusOk(statusLabel);
+                    btnGetTime_Click(this, new EventArgs());
                 }
             }
             catch (Exception exception)
@@ -361,12 +445,14 @@ namespace DL_AIS_Readers
 
         private void btnSubmitLocalDateTime_Click(object sender, EventArgs e)
         {
-            SubmitDateTime(DateTime.Now, "Device DateTime have been successfully set to local DateTime.\n");
+            SubmitDateTime(DateTime.Now, Convert.ToInt32(tbLocalTimeZoneOffset.Text), chkLocalDstActive.Checked, Convert.ToInt32(tbLocalDstDelta.Text),
+                "Device DateTime have been successfully set to local DateTime.\n");
         }
 
         private void btnSubmitDateTime_Click(object sender, EventArgs e)
         {
-            SubmitDateTime(dateTimeDevice.Value, "Device DateTime have been successfully set.\n");
+            SubmitDateTime(dtpDeviceUTC.Value, Convert.ToInt32(numDeviceTimeZoneOffset.Value), chkDeviceDstActive.Checked, Convert.ToInt32(numDeviceDstDelta.Value),
+                "Device DateTime have been successfully set.\n");
         }
 
         private void btnGetWholeLog_Click(object sender, EventArgs e)
@@ -380,8 +466,11 @@ namespace DL_AIS_Readers
 
                 if (chkGetLogByIndex.Checked)
                 {
-                    status = ais_readers.AIS_GetLogByIndex(hnd_device, AdminPassword, 
-                               (UInt32)numIndexFrom.Value, (UInt32)numIndexTo.Value);
+                    status = ais_readers.AIS_GetLogByIndex(hnd_device, AdminPassword, (UInt32)numIndexFrom.Value, (UInt32)numIndexTo.Value);
+                }
+                else if (chkGetLogByTime.Checked)
+                {
+                    status = ais_readers.AIS_GetLogByTime(hnd_device, AdminPassword, dtpLogTimeFrom.Value, dtpLogTimeTo.Value);
                 }
                 else
                 {
@@ -1279,6 +1368,32 @@ namespace DL_AIS_Readers
             {
                 numIndexTo.Text = "0";
             }
+        }
+
+        private void chkGetLogByIndex_Click(object sender, EventArgs e)
+        {
+            chkGetLogByTime.Checked = false;
+        }
+
+        private void chkGetLogByTime_Click(object sender, EventArgs e)
+        {
+            chkGetLogByIndex.Checked = false;
+        }
+
+        private void chkGetLogByIndex_CheckedChanged(object sender, EventArgs e)
+        {
+            lbIndexFrom.Enabled = chkGetLogByIndex.Checked;
+            numIndexFrom.Enabled = chkGetLogByIndex.Checked;
+            lbIndexTo.Enabled = chkGetLogByIndex.Checked;
+            numIndexTo.Enabled = chkGetLogByIndex.Checked;
+        }
+
+        private void chkGetLogByTime_CheckedChanged(object sender, EventArgs e)
+        {
+            lbLogTimeFrom.Enabled = chkGetLogByTime.Checked;
+            dtpLogTimeFrom.Enabled = chkGetLogByTime.Checked;
+            lbLogTimeFrom.Enabled = chkGetLogByTime.Checked;
+            dtpLogTimeTo.Enabled = chkGetLogByTime.Checked;
         }
     }
 

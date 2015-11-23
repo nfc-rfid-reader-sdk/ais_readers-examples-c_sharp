@@ -638,7 +638,7 @@ namespace DL_AIS_Readers
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "AIS_GetTime")]
         private static extern DL_STATUS GetTime(HND_AIS device, out UInt64 unixTime, out Int32 timezone, out Int32 dst, out Int32 dst_bias); // timezone and dst_bias in min.
-        public static DL_STATUS AIS_GetTime(HND_AIS device, out DateTime date_time, out Int32 timezone, out bool is_dst, out Int32 dst_bias)
+        public static DL_STATUS AIS_GetTime(HND_AIS device, out DateTime date_time, out Int32 timezone, out bool is_dst, out Int32 dst_bias) // timezone and dst_bias in min.
         {
             DL_STATUS status = DL_STATUS.DL_OK;
             UInt32 i = 0;
@@ -657,25 +657,22 @@ namespace DL_AIS_Readers
         }
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "AIS_SetTime")]
-        private static extern DL_STATUS SetTime(
-            HND_AIS device,
-            StringBuilder password,
-            UInt64 unixTime);
-        public static DL_STATUS AIS_SetTime(
-            HND_AIS device,
-            string str_password,
-            DateTime date_time) 
+        private static extern DL_STATUS SetTime(HND_AIS device, StringBuilder password, UInt64 unixTime, Int32 timezone, Int32 dst, Int32 dst_bias); // timezone and dst_bias in min.
+        public static DL_STATUS AIS_SetTime( HND_AIS device, string str_password, DateTime date_time, Int32 timezone, bool dst, Int32 dst_bias) // timezone and dst_bias in min.
         {
             DL_STATUS status = DL_STATUS.DL_OK;
             UInt32 i = 0;
+            Int32 int_dst = 0;
             DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             TimeSpan span = (date_time - epoch);
             UInt64 unixTime = (UInt64)span.TotalSeconds;
 
+            if (dst)
+                int_dst = 1;
             StringBuilder password = new StringBuilder(str_password);
             do
             {
-                status = SetTime(device, password, unixTime);
+                status = SetTime(device, password, unixTime, timezone, int_dst, dst_bias);
             }
             while ((status == DL_STATUS.RESOURCE_BUSY) && (i++ < MAX_RETRY_IF_BUSY));
             return status;
@@ -774,6 +771,29 @@ namespace DL_AIS_Readers
             do
             {
                 status = GetLogByIndex(device, password, start_index, end_index);
+            }
+            while ((status == DL_STATUS.RESOURCE_BUSY) && (i++ < MAX_RETRY_IF_BUSY));
+            return status;
+        }
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "AIS_GetLogByTime")]
+        private static extern DL_STATUS GetLogByTime(HND_AIS device, StringBuilder password,
+                                                      UInt64 unix_time_from, UInt64 unix_time_to);
+        public static DL_STATUS AIS_GetLogByTime(HND_AIS device, string str_password,
+                                                  DateTime timeFrom, DateTime timeTo)
+        {
+            DL_STATUS status = DL_STATUS.DL_OK;
+            UInt32 i = 0;
+            StringBuilder password = new StringBuilder(str_password);
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan span = timeFrom - epoch;
+            UInt64 unixTimeFrom = (UInt64)span.TotalSeconds;
+            span = timeTo - epoch;
+            UInt64 unixTimeTo = (UInt64)span.TotalSeconds;
+
+            do
+            {
+                status = GetLogByTime(device, password, unixTimeFrom, unixTimeTo);
             }
             while ((status == DL_STATUS.RESOURCE_BUSY) && (i++ < MAX_RETRY_IF_BUSY));
             return status;
